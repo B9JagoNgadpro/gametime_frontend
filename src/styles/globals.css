@@ -1,0 +1,60 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background-light: #f0f0f0;
+  --background-dark: #2d2d2d;
+  --text-light: #ffffff;
+  --text-dark: #000000;
+}
+
+body {
+  @apply font-sans bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white;
+  margin: 0;
+  padding: 0;
+}
+
+.header, .footer {
+  @apply p-4 bg-gray-800 text-white dark:bg-gray-700;
+}
+
+.main {
+  @apply p-8;
+}
+
+.card {
+  @apply p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 cursor-pointer;
+  transition: background-color 0.3s ease;
+}
+
+.card h3 {
+  @apply text-xl font-semibold mb-2;
+}
+
+.card p {
+  @apply mb-2;
+}
+
+.card:hover {
+  background-color: #f0f0f0;
+  dark:bg-gray-700;
+}
+
+input, button {
+  @apply p-2 border border-gray-300 rounded;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+input:focus, button:focus {
+  outline: none;
+  border-color: #3b82f6;
+}
+
+button {
+  @apply bg-blue-500 text-white;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
