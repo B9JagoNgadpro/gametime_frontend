@@ -11,7 +11,7 @@ const SearchPage = () => {
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const response = await axios.get('http://localhost:8080/api/games/filter', {
+            const response = await axios.get('http://localhost:8080/api/games', {
                 params: {
                     name: query
                 }
