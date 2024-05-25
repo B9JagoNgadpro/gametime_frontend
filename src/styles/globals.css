@@ -2,21 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background-light: #f0f0f0;
-  --background-dark: #2d2d2d;
-  --text-light: #ffffff;
-  --text-dark: #000000;
-}
-
 body {
-  @apply font-sans bg-gray-100 text-gray-900 dark:bg-gray-900 dark:text-white;
+  font-family: Arial, sans-serif;
+  background-color: #cccccc;
   margin: 0;
   padding: 0;
 }
 
 .header, .footer {
-  @apply p-4 bg-gray-800 text-white dark:bg-gray-700;
+  @apply p-4 bg-gray-800 text-white;
 }
 
 .main {
@@ -24,8 +18,7 @@ body {
 }
 
 .card {
-  @apply p-4 bg-white rounded-lg shadow-md dark:bg-gray-800 cursor-pointer;
-  transition: background-color 0.3s ease;
+  @apply p-4 bg-white rounded-lg shadow-md cursor-pointer;
 }
 
 .card h3 {
@@ -38,23 +31,4 @@ body {
 
 .card:hover {
   background-color: #f0f0f0;
-  dark:bg-gray-700;
-}
-
-input, button {
-  @apply p-2 border border-gray-300 rounded;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
-}
-
-input:focus, button:focus {
-  outline: none;
-  border-color: #3b82f6;
-}
-
-button {
-  @apply bg-blue-500 text-white;
-}
-
-button:hover {
-  background-color: #2563eb;
 }
