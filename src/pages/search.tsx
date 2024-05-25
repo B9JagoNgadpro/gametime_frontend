@@ -7,9 +7,11 @@ import GameList from '../components/GameList';
 const SearchPage = () => {
     const [query, setQuery] = useState('');
     const [games, setGames] = useState([]);
+    const [searched, setSearched] = useState(false);
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
+        setSearched(true);
         try {
         const response = await axios.get('http://localhost:8080/api/games', {
             params: { name: query },
@@ -35,7 +37,7 @@ const SearchPage = () => {
             Search
             </button>
         </form>
-        <GameList games={games} />
+        <GameList games={games} searched={searched} />
         </div>
     );
 };
