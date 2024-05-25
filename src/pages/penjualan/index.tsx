@@ -1,7 +1,7 @@
 // pages/index.js
 
 import Head from 'next/head';
-import Form from '../components/penjualan/Form';
+import Form from '../../components/penjualan/Form';
 import { Container, Typography } from '@mui/material';
 
 export default function penjualan() {

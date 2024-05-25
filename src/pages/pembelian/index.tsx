@@ -1,7 +1,7 @@
-import CheckOut from "../components/pembelian/CheckOut";
-import ListPesanan from "../components/pembelian/ListPesanan";
+import CheckOut from "../../components/pembelian/CheckOut";
+import ListPesanan from "../../components/pembelian/ListPesanan";
 
-import Logout from "../components/logout/Logout";
+import Logout from "../../components/logout/Logout";
 
 const Pembelian= ()=>{
     return(

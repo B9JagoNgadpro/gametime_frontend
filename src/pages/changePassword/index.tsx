@@ -1,4 +1,4 @@
-import ChangePasswordPage from "../components/changePassword/changePassword";
+import ChangePasswordPage from "../../components/changePassword/changePassword";
 
 const ChangePassword= ()=>{
     return(

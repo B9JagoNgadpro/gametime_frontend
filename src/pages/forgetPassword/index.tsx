@@ -1,4 +1,4 @@
-import ForgePasswordPage from "../components/forgetPassword/forgetPasswordPage";
+import ForgePasswordPage from "../../components/forgetPassword/forgetPasswordPage";
 
 const ForgetPassword= ()=>{
     return(
