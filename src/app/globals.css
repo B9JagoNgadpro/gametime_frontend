@@ -12,7 +12,7 @@
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-end-rgb: 24, 24, 27;
   }
 }
 
@@ -22,8 +22,36 @@ body {
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
-    )
+    ),
     rgb(var(--background-start-rgb));
+}
+
+.header, .footer {
+  @apply p-4 bg-gray-800 text-white dark:bg-gray-900;
+}
+
+.header h1, .footer p {
+  @apply text-2xl;
+}
+
+.main {
+  @apply p-8;
+}
+
+.card {
+  @apply p-4 bg-white rounded-lg shadow-md dark:bg-gray-800;
+}
+
+.card h3 {
+  @apply text-xl font-semibold mb-2;
+}
+
+.card p {
+  @apply mb-2;
+}
+
+.link {
+  @apply text-blue-500 hover:underline;
 }
 
 @layer utilities {
