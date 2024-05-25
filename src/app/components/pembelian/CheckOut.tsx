@@ -4,10 +4,11 @@ import { useRouter } from 'next/navigation';
 
 const CheckOut = () => {
     const router = useRouter();
-    const email = localStorage.getItem("email")
-    const token = localStorage.getItem('Authorization');
+  
 
     const handleCheckOutClick = async() => {
+        const email = localStorage.getItem("email")
+        const token = localStorage.getItem('Authorization');
         const response = await fetch('http://34.87.70.230/api/transaksi/'+email, {
             method: 'POST',
             headers: {
@@ -17,12 +18,14 @@ const CheckOut = () => {
         });
         
         try{
-            const data = await response.json();
-            if (response.ok) {
-            alert("Transaksi Berhasil")
+          
+            if (response.status === 201) {
+                const data = await response.json();
+                alert("Transaksi Berhasil")
             } 
             else {
-            alert(data.errors);
+                const data = await response.json();
+                alert(data.errors);
             }
         }
         catch(error){
