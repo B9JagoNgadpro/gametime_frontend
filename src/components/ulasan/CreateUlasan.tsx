@@ -1,9 +1,9 @@
 // src/components/ulasan/CreateUlasan.tsx
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import axios from '../../utils/api';
 import { FaStar } from 'react-icons/fa';
 import Swal from 'sweetalert2';
+import createAxiosInstance from '../../utils/api';
 
 interface Ulasan {
     idUser: string;
@@ -56,8 +56,9 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
 
     const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+        const axiosInstance = createAxiosInstance('http://34.168.24.170/');
         try {
-            await axios.post('http://localhost:8080/ulasan/create', form);
+            await axiosInstance.post('/ulasan/create', form);
             Swal.fire({
                 title: 'Success!',
                 text: 'Ulasan created successfully',
