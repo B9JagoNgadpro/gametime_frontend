@@ -16,6 +16,7 @@ const SearchPage = () => {
                     name: query
                 }
             });
+            console.log("Response data:", response.data);
             setGames(response.data);
         } catch (error) {
             console.error('Error fetching games:', error);
