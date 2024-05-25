@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import axios from 'axios';
-import GameList from '../components/GameList'
+import GameList from '../components/GameList';
 
 const SearchPage = () => {
     const [query, setQuery] = useState('');
@@ -13,10 +13,10 @@ const SearchPage = () => {
         try {
             const response = await axios.get('http://localhost:8080/api/games', {
                 params: {
-                    name: query
-                }
+                    name: query,
+                },
             });
-            console.log("Response data:", response.data);
+            console.log('Response data:', response.data);
             setGames(response.data);
         } catch (error) {
             console.error('Error fetching games:', error);
