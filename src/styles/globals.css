@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #cccccc;
+  font-family: 'Roboto', Arial, sans-serif;
   margin: 0;
   padding: 0;
+  background-color: #f8f9fa;
+  color: #333;
 }
 
 .header, .footer {
@@ -18,7 +19,7 @@ body {
 }
 
 .card {
-  @apply p-4 bg-white rounded-lg shadow-md cursor-pointer;
+  @apply p-4 bg-white dark:bg-gray-700 rounded-lg shadow-md cursor-pointer;
 }
 
 .card h3 {
@@ -30,5 +31,13 @@ body {
 }
 
 .card:hover {
-  background-color: #f0f0f0;
+  @apply shadow-lg transition-shadow duration-300;
+}
+
+input {
+  @apply p-2 border border-gray-300 rounded-l-lg;
+}
+
+button {
+  @apply p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600 transition-colors duration-300;
 }
