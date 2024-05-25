@@ -36,6 +36,21 @@ body {
 
 input {
   @apply p-2 border border-gray-300 rounded-l-lg;
+  color: #000;
+}
+
+input::placeholder {
+  color: #999;
+}
+
+@media (prefers-color-scheme: dark) {
+  input {
+    color: #fff;
+  }
+
+  input::placeholder {
+    color: #ccc;
+  }
 }
 
 button {
