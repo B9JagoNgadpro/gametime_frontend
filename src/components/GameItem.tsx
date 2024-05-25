@@ -14,13 +14,13 @@ interface GameItemProps {
 const GameItem: React.FC<GameItemProps> = ({ game }) => {
     return (
         <Link href={`/game/${game.id}`} className="card">
-            <div>
-                <h3>{game.nama}</h3>
-                <p>{game.deskripsi}</p>
-                <p>Harga: {game.harga}</p>
-                <p>Kategori: {game.kategori}</p>
-                <p>Stok: {game.stok}</p>
-            </div>
+        <div>
+            <h3>{game.nama}</h3>
+            <p>{game.deskripsi}</p>
+            <p>Harga: {game.harga}</p>
+            <p>Kategori: {game.kategori}</p>
+            <p>Stok: {game.stok}</p>
+        </div>
         </Link>
     );
 };
