@@ -2,7 +2,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Layout from '../../layout/layout';
 
 interface CartItem {
   [key: string]: number;
@@ -14,7 +13,7 @@ interface Cart {
   totalPrice: number;
 }
 
-const CartPage = () => {
+const KeranjangItem = () => {
   const router = useRouter();
 
   const [cart, setCart] = useState<Cart | null>(null);
@@ -157,7 +156,6 @@ const CartPage = () => {
   if (!cart) return <div>No cart data</div>;
 
   return (
-    <Layout>
       <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
         <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">Keranjang Belanja</h1>
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -197,8 +195,7 @@ const CartPage = () => {
           Clear Cart
         </button>
       </div>
-    </Layout>
   );
 };
 
-export default CartPage;
+export default KeranjangItem;
