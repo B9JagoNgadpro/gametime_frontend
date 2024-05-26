@@ -1,4 +1,3 @@
-// src/components/ulasan/CreateUlasan.tsx
 import { useState, FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { FaStar } from 'react-icons/fa';
@@ -24,13 +23,17 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
         deskripsi: ''
     });
 
-    useEffect(() => {
-        setForm((prevForm) => ({ ...prevForm, game }));
-    }, [game]);
-
     const [hoverRating, setHoverRating] = useState<number>(0);
 
     const router = useRouter();
+
+    useEffect(() => {
+        const email = localStorage.getItem("email");
+        if (email) {
+            setForm((prevForm) => ({ ...prevForm, idUser: email }));
+        }
+        setForm((prevForm) => ({ ...prevForm, game }));
+    }, [game]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm({
@@ -58,7 +61,12 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
         e.preventDefault();
         const axiosInstance = createAxiosInstance('http://34.168.24.170/');
         try {
+            // Create ulasan
             await axiosInstance.post('/ulasan/create', form);
+
+            // Mark game as reviewed
+            // await axiosInstance.patch(`/isReviewed/user/${form.idUser}`, { idGame: form.game });
+
             Swal.fire({
                 title: 'Success!',
                 text: 'Ulasan created successfully',
@@ -79,11 +87,6 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
 
     return (
         <form onSubmit={handleSubmit} className="max-w-lg ml-auto p-4 border rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold mb-4">Create Ulasan</h1>
-            <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">User &#39;TEMPORARY NANTI FETCH DARI LOGGED IN USER&#39;</label>
-                <input type="text" name="idUser" value={form.idUser} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
-            </div>
             <div className="mb-4">
                 <label className="block text-gray-700 text-sm font-bold mb-2">Rating</label>
                 <div className="flex">

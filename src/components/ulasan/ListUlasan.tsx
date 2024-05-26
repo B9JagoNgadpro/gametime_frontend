@@ -1,8 +1,8 @@
-// src/components/ulasan/ListUlasan.tsx
 import { useEffect, useState } from 'react';
 import { FaStar, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import createAxiosInstance from '../../utils/api';
+import GameCard from './GameCard';
 
 export interface Ulasan {
     id: string;
@@ -19,13 +19,27 @@ interface ListUlasanProps {
 
 const ListUlasan = ({ idUser }: ListUlasanProps) => {
     const [ulasans, setUlasans] = useState<Ulasan[]>([]);
-    const axiosInstance = createAxiosInstance('http://34.168.24.170/');
+    const [gameDetails, setGameDetails] = useState<{ [key: string]: { nama: string, deskripsi: string, harga: number, kategori: string } }>({});
+    const axiosInstance1 = createAxiosInstance('http://34.168.24.170/');
+    const axiosInstance2 = createAxiosInstance('http://34.87.70.230/');
 
     useEffect(() => {
         const fetchUlasans = async () => {
             try {
-                const response = await axiosInstance.get<Ulasan[]>(`/ulasan/user/${idUser}`);
-                setUlasans(response.data);
+                const response = await axiosInstance1.get<Ulasan[]>(`/ulasan/user/${idUser}`);
+                const ulasanData = response.data;
+                setUlasans(ulasanData);
+
+                // Fetch game details for each game in the ulasan list
+                const gameDetailsPromises = ulasanData.map(async (ulasan) => {
+                    const gameResponse = await axiosInstance2.get(`/api/games/${ulasan.game}`);
+                    const gameData = gameResponse.data.data;
+                    return { [ulasan.game]: gameData };
+                });
+
+                const gameDetailsArray = await Promise.all(gameDetailsPromises);
+                const gameDetailsMap = gameDetailsArray.reduce((acc, curr) => ({ ...acc, ...curr }), {});
+                setGameDetails(gameDetailsMap);
             } catch (error) {
                 console.error('Error fetching ulasans:', error);
             }
@@ -47,7 +61,7 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    await axiosInstance.delete(`/ulasan/delete/${idUlasan}`);
+                    await axiosInstance1.delete(`/ulasan/delete/${idUlasan}`);
                     setUlasans((prevUlasans) => prevUlasans.filter(ulasan => ulasan.id !== idUlasan));
                     Swal.fire(
                         'Deleted!',
@@ -79,25 +93,35 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
     };
 
     return (
-        <div className="grid gap-4">
-            {ulasans.length === 0 ? (
-                <div className="text-center text-gray-500">Belum ada ulasan</div>
-            ) : (
-                ulasans.map((ulasan) => (
-                    <div key={ulasan.id} className="bg-white p-4 rounded-lg shadow-md relative">
-                        <div className="text-lg font-bold">{ulasan.game}</div>
-                        <div className="mt-2">{renderStars(ulasan.rating)}</div>
-                        <div className="mt-2">{ulasan.deskripsi}</div>
-                        <div className="text-sm text-gray-600 mt-2">{ulasan.date}</div>
-                        <button 
-                            onClick={() => handleDelete(ulasan.id)} 
-                            className="absolute bottom-4 right-4 text-red-500 hover:text-red-700">
-                            <FaTrashAlt />
-                        </button>
-                    </div>
-                ))
-            )}
-        </div>
+            <div className="grid gap-4">
+                {ulasans.length === 0 ? (
+                    <div className="text-center text-gray-500">Belum ada ulasan</div>
+                ) : (
+                    ulasans.map((ulasan) => (
+                        <GameCard
+                            key={ulasan.id}
+                            id={ulasan.game}
+                            nama={gameDetails[ulasan.game]?.nama || ''}
+                            deskripsi={gameDetails[ulasan.game]?.deskripsi || ''}
+                            harga={gameDetails[ulasan.game]?.harga || 0}
+                            kategori={gameDetails[ulasan.game]?.kategori || ''}
+                        >
+                            <div className="mt-4 border-t-2 pt-4">
+                                <div className="text-lg font-bold">
+                                    {ulasan.idUser} <span className="text-sm text-gray-600">∙ {ulasan.date}</span>
+                                </div>
+                                <div className="mt-2">{renderStars(ulasan.rating)}</div>
+                                <div className="mt-2">{ulasan.deskripsi}</div>
+                                <button
+                                    onClick={() => handleDelete(ulasan.id)}
+                                    className="absolute bottom-4 right-4 mt-2 text-red-500 hover:text-red-700">
+                                    <FaTrashAlt />
+                                </button>
+                            </div>
+                        </GameCard>
+                    ))
+                )}
+            </div>
     );
 };
 

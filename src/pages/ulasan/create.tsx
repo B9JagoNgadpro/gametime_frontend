@@ -18,38 +18,37 @@ const CreateUlasanPage = () => {
     const { gameId } = router.query;
 
     const [game, setGame] = useState<Game | null>(null);
-
-    // Fetch dari game API nantinya
-    const games: Game[] = [
-        {
-            id: 'game1',
-            nama: 'Game Satu',
-            deskripsi: 'Deskripsi singkat game satu.',
-            harga: 50000,
-            kategori: 'Aksi'
-        },
-        {
-            id: 'game2',
-            nama: 'Game Dua',
-            deskripsi: 'Deskripsi singkat game dua.',
-            harga: 75000,
-            kategori: 'Petualangan'
-        },
-        {
-            id: 'game3',
-            nama: 'Game Tiga',
-            deskripsi: 'Deskripsi singkat game tiga.',
-            harga: 100000,
-            kategori: 'Strategi'
-        }
-    ];
+    const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        if (gameId) {
-            const selectedGame = games.find(game => game.id === gameId);
-            setGame(selectedGame || null);
+        const storedToken = localStorage.getItem('Authorization');
+        setToken(storedToken);
+
+        if (gameId && storedToken) {
+            fetchGameDetails(gameId as string, storedToken);
         }
     }, [gameId]);
+
+    const fetchGameDetails = async (id: string, authToken: string) => {
+        try {
+            const response = await fetch(`http://34.87.70.230/api/games/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const gameData = await response.json();
+            setGame(gameData.data);
+        } catch (error) {
+            console.error('Error fetching game details:', error);
+        }
+    };
 
     return (
         <Layout>
