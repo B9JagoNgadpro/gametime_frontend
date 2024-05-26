@@ -13,7 +13,7 @@ interface GameItemProps {
 
 const GameItem: React.FC<GameItemProps> = ({ game }) => {
     return (
-        <Link href={`/game/${game.id}`} className="card">
+        <Link href={`/pencarian/game/${game.id}`} className="card">
             <div className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 dark:bg-gray-700">
                 <h3 className="text-xl font-semibold mb-2">{game.nama}</h3>
                 <p className="mb-2">{game.deskripsi}</p>
