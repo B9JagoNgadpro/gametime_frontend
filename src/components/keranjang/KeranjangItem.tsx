@@ -1,4 +1,3 @@
-// src/components/keranjang/KeranjangItem.tsx
 import React from 'react';
 
 interface KeranjangItemProps {
