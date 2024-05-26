@@ -3,10 +3,11 @@
 import Head from 'next/head';
 import Form from '../../components/penjualan/Form';
 import { Container, Typography } from '@mui/material';
+import Layout from '../../layout/layout';
 
 export default function penjualan() {
   return (
-    <>
+    <Layout>
         <Container maxWidth="sm">
         <Head>
             <title> Penjualan</title>
@@ -16,6 +17,6 @@ export default function penjualan() {
         </Typography>
         <Form />
         </Container>
-    </>
+    </Layout>  
   );
 }
