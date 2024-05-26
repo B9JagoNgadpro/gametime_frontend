@@ -1,10 +1,12 @@
 "use client"
+import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
 
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
 
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -25,6 +27,7 @@ const LoginPage = () => {
         localStorage.setItem('Authorization', data.data.token);
         localStorage.setItem('email', email)
         alert("Berhasil login")
+        router.push('/dashboard');
       } else {
         alert(data.errors);
       }
