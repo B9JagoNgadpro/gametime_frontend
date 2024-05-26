@@ -1,40 +1,32 @@
-"use client";
-import { useState } from 'react';
-import axios from 'axios';
-import GameList from '../components/pencarian/GameList';
-import GameSearchForm from '../components/pencarian/GameSearchForm';
-import { SearchFilters } from '../types';
+import Layout from '../layout/layout';
+import Link from 'next/link';
+import React from 'react';
 
-const HomePage = () => {
-    const [games, setGames] = useState([]);
-    const [searched, setSearched] = useState(false);
-
-    const handleSearch = async (filters: SearchFilters) => {
-        setSearched(true);
-        try {
-            const response = await axios.get('http://localhost:8080/api/games/filter', {
-                params: {
-                    name: filters.name,
-                    category: filters.category,
-                    minPrice: filters.minPrice,
-                    maxPrice: filters.maxPrice,
-                },
-            });
-            setGames(response.data);
-        } catch (error) {
-            console.error('Error fetching games:', error);
-        }
-    };
-
-    return (
-        <div className="min-h-screen bg-gray-100 p-8 dark:bg-gray-900 dark:text-white">
-            <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-                <h1 className="text-4xl font-bold mb-4 text-center">Search Games</h1>
-                <GameSearchForm onSearch={handleSearch} />
-                <GameList games={games} searched={searched} />
-            </div>
+const UlasanHome: React.FC = () => {
+  return (
+    <Layout>
+      <div className="flex flex-col items-center justify-center min-h-screen py-2 bg-gray-100">
+        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Utama GameTime</h1>
+        <div className="space-x-4">
+          <Link href="/ulasan">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+              Ulasan
+            </button>
+          </Link>
+          <Link href="/keranjang/raflimahesa">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+              Keranjang
+            </button>
+          </Link>
+          <Link href="/pencarian">
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+              Pencarian
+            </button>
+          </Link>
         </div>
-    );
+      </div>
+    </Layout>
+  );
 };
 
-export default HomePage;
+export default UlasanHome;
