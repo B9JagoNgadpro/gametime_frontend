@@ -27,6 +27,9 @@ const Dashboard: React.FC = () => {
           <Link href="/ulasan" className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
               Ulasan
           </Link>
+          <Link href="/keranjang" className="block w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded text-center">
+              Keranjang
+          </Link>
         </div>
       </div>
     </Layout>
