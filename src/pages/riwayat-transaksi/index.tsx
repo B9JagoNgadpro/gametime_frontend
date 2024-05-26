@@ -8,8 +8,8 @@ import PenjualTable from '@/components/riwayat-transaksi/PenjualTable';
 
 
 export default function riwayatTransaksi() {
-  let state = "pembeli";
-  let userEmail = "b@gmail.com";
+  let state = "penjual";
+  let userEmail = "a@gmail.com";
 
   return (
     <Layout>
@@ -21,7 +21,7 @@ export default function riwayatTransaksi() {
             Riwayat Transaksi
         </Typography>
         </Container>
-        {state == "pembeli" ? <PembeliTable userEmail={userEmail} /> : <PenjualTable />}
+        {state == "pembeli" ? <PembeliTable userEmail={userEmail} /> : <PenjualTable userEmail={userEmail} />}
     </Layout>  
   );
 }
