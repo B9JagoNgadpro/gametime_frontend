@@ -1,62 +1,43 @@
-"use client";
-import { useState } from 'react';
-import { SearchFilters } from '../../utils/types';
+import React, { useState } from 'react';
 
 interface GameSearchFormProps {
-    onSearch: (filters: SearchFilters) => void;
+    onSearch: (searchParams: { name: string; category: string }) => void;
 }
 
 const GameSearchForm: React.FC<GameSearchFormProps> = ({ onSearch }) => {
     const [name, setName] = useState('');
     const [category, setCategory] = useState('');
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSearch({ 
-            name, 
-            category, 
-            minPrice: minPrice ? parseInt(minPrice) : undefined,
-            maxPrice: maxPrice ? parseInt(maxPrice) : undefined,
-        });
+        onSearch({ name, category });
     };
 
     return (
-        <form onSubmit={handleSubmit} className="mb-4">
-            <div className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} className="bg-gray-800 p-6 rounded-lg shadow-lg">
+            <div className="mb-4">
+                <label htmlFor="name" className="block text-white mb-2">Name:</label>
                 <input
                     type="text"
+                    id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Search by name"
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-600 rounded-lg"
                 />
+            </div>
+            <div className="mb-4">
+                <label htmlFor="category" className="block text-white mb-2">Category:</label>
                 <input
                     type="text"
+                    id="category"
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
-                    placeholder="Filter by category"
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-600 rounded-lg"
                 />
-                <input
-                    type="number"
-                    value={minPrice}
-                    onChange={(e) => setMinPrice(e.target.value)}
-                    placeholder="Min Price"
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <input
-                    type="number"
-                    value={maxPrice}
-                    onChange={(e) => setMaxPrice(e.target.value)}
-                    placeholder="Max Price"
-                    className="p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button type="submit" className="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors duration-300">
-                    Search
-                </button>
             </div>
+            <button type="submit" className="w-full p-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Search
+            </button>
         </form>
     );
 };
