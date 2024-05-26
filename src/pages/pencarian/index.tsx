@@ -1,11 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
-// import GameList from '../components/pencarian/GameList';
-// import GameSearchForm from '../components/pencarian/GameSearchForm';
-import { SearchFilters } from '@/utils/types';
-
 import GameSearchForm from '../../components/pencarian/GameSearchForm';
 import GameList from '../../components/pencarian/GameList';
+import { SearchFilters } from '@/utils/types';
 
 const HomePage = () => {
     const [games, setGames] = useState([]);
@@ -14,7 +11,7 @@ const HomePage = () => {
     const handleSearch = async (filters: SearchFilters) => {
         setSearched(true);
         try {
-            const response = await axios.get('http://localhost:8080/api/games/filter', {
+            const response = await axios.get('http://34.87.89.120/api/games/filter', {
                 params: {
                     name: filters.name,
                     category: filters.category,
