@@ -80,7 +80,7 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
         <form onSubmit={handleSubmit} className="max-w-lg ml-auto p-4 border rounded-lg shadow-md">
             <h1 className="text-2xl font-bold mb-4">Create Ulasan</h1>
             <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-bold mb-2">User 'TEMPORARY NANTI FETCH DARI LOGGED IN USER'</label>
+                <label className="block text-gray-700 text-sm font-bold mb-2">User &#39;TEMPORARY NANTI FETCH DARI LOGGED IN USER&#39;</label>
                 <input type="text" name="idUser" value={form.idUser} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
             </div>
             <div className="mb-4">
