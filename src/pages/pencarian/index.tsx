@@ -1,9 +1,11 @@
-"use client";
 import { useState } from 'react';
 import axios from 'axios';
-import GameList from '../components/pencarian/GameList';
-import GameSearchForm from '../components/pencarian/GameSearchForm';
-import { SearchFilters } from '../types';
+// import GameList from '../components/pencarian/GameList';
+// import GameSearchForm from '../components/pencarian/GameSearchForm';
+import { SearchFilters } from '@/utils/types';
+
+import GameSearchForm from '../../components/pencarian/GameSearchForm';
+import GameList from '../../components/pencarian/GameList';
 
 const HomePage = () => {
     const [games, setGames] = useState([]);

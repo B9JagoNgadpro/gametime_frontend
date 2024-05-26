@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { SearchFilters } from '../types';
+import { SearchFilters } from '../../utils/types';
 
 interface GameSearchFormProps {
     onSearch: (filters: SearchFilters) => void;

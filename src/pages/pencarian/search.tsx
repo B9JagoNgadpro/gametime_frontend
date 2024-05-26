@@ -1,7 +1,10 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-import GameList from '../components/GameList';
+// import GameList from '../components/pencarian/GameList';
+
+import GameList from '../../components/pencarian/GameList'
+
 
 const SearchPage = () => {
     const [query, setQuery] = useState('');
