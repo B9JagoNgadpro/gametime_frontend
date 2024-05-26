@@ -3,9 +3,19 @@ import ListUlasan from '@/components/ulasan/ListUlasan';
 import Layout from '../../layout/layout';
 import GameCard from '@/components/ulasan/GameCard';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const HomeUlasan: React.FC = () => {
+  const [email, setEmail] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    const storedToken = localStorage.getItem('Authorization');
+    setEmail(storedEmail);
+    setToken(storedToken);
+  }, []);
+  
   const games = [
     {
       id: 'game1',
@@ -33,7 +43,7 @@ const HomeUlasan: React.FC = () => {
   return (
     <Layout>
       <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
-        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, User1 NANTI FETCH DARI LOGGED IN USER</h1>
+        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, {email}</h1>
         <div className="flex flex-row w-full max-w-7xl space-x-8">
           <div className="w-1/2 space-y-4">
             <h1 className="text-2xl font-bold mb-4">Your Games NANTI FETCH DARI RIWAYAT</h1>
@@ -57,7 +67,7 @@ const HomeUlasan: React.FC = () => {
           <div className="w-1/2">
             <h1 className="text-2xl font-bold mb-4">Your Reviews</h1>
             {/* NANTI DIBIKIN FETCH DARI USER LOGGED IN */}
-            <ListUlasan idUser={"user1"} /> 
+            <ListUlasan idUser={ "user1"} /> 
           </div>
         </div>
       </div>
