@@ -20,7 +20,7 @@ const Layout = ({ children }: LayoutProps) => {
                 {children}
             </main>
             <footer className="bg-blue-600 text-white p-4">
-                <p className="text-center">&copy; 2024 Ulasan App</p>
+                <p className="text-center">&copy; 2024 GameTime</p>
             </footer>
         </div>
     );
