@@ -12,9 +12,8 @@ const GameDetail = () => {
         if (id) {
             const fetchGame = async () => {
                 try {
-                    // const response = await axios.get(`http://localhost:8080/api/games/${id}`);
-                    const response = await axios.get(`http://34.87.89.120/api/games/${id}`);
-                    setGame(response.data);
+                    const response = await axios.get(`http://34.87.70.230/api/games/${id}`);
+                    setGame(response.data.data);
                 } catch (error) {
                     console.error('Error fetching game:', error);
                 }
