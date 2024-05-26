@@ -13,7 +13,7 @@ const Layout = ({ children }: LayoutProps) => {
         <div className="min-h-screen bg-gray-100 flex flex-col">
             <header className="bg-blue-600 text-white p-4">
                 <Link href="/">
-                    <h1 className="text-2xl font-bold">GameTime App</h1>
+                    <h1 className="text-2xl font-bold">Gametime App</h1>
                 </Link>
             </header>
             <main className="p-4 flex-grow">
