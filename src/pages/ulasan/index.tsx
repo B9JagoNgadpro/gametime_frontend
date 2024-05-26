@@ -33,10 +33,10 @@ const HomeUlasan: React.FC = () => {
   return (
     <Layout>
       <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
-        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, User1 'NANTI FETCH DARI LOGGED IN USER'</h1>
+        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, User1 NANTI FETCH DARI LOGGED IN USER</h1>
         <div className="flex flex-row w-full max-w-7xl space-x-8">
           <div className="w-1/2 space-y-4">
-            <h1 className="text-2xl font-bold mb-4">Your Games 'NANTI FETCH DARI RIWAYAT'</h1>
+            <h1 className="text-2xl font-bold mb-4">Your Games NANTI FETCH DARI RIWAYAT</h1>
             {games.map(game => (
               <GameCard 
                 key={game.id}
