@@ -51,6 +51,8 @@ const KeranjangItem = () => {
       } catch (error: any) {
         if (error.response && error.response.status === 403) {
           setError('Forbidden: You do not have access to this page, please login as pembeli');
+        } else if (error.response && error.response.status === 404) {
+          await createCart();
         } else {
           setError('Failed to fetch cart');
         }
@@ -65,6 +67,35 @@ const KeranjangItem = () => {
         setGames(response.data.data);
       } catch (error) {
         setError('Failed to fetch games');
+      }
+    };
+
+    const createCart = async () => {
+      try {
+        const email = localStorage.getItem("email");
+        const token = localStorage.getItem('Authorization');
+        if (!email || !token) {
+          throw new Error('Unauthorized');
+        }
+
+        await axios.post(`api/cart/create/${email}`, null, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const response = await axios.get(`/api/cart/view/${email}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        setCart(response.data);
+        setError('');
+      } catch (error) {
+        setError('Failed to create cart');
       }
     };
 
