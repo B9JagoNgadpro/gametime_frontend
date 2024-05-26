@@ -47,14 +47,14 @@ const PenjualTable: React.FC<PenjualTableProps> = ({ userEmail }) => {
 
     return (
         <div className="container mx-auto px-4">
-            <h1 className="text-2xl font-bold mb-4">Transactions for {userEmail}</h1>
+            <h1 className="text-2xl font-bold mb-4">Transaksi dari penjual {userEmail}</h1>
             <table className="min-w-full bg-white border border-gray-300">
                 <thead>
                     <tr>
-                        <th className="py-2 px-4 border-b">Game Name</th>
-                        <th className="py-2 px-4 border-b">Game Price</th>
-                        <th className="py-2 px-4 border-b">Payment Date</th>
-                        <th className="py-2 px-4 border-b">Buyer ID</th>
+                        <th className="py-2 px-4 border-b">Nama Game</th>
+                        <th className="py-2 px-4 border-b">Harga</th>
+                        <th className="py-2 px-4 border-b">Tanggal Pembayaran</th>
+                        <th className="py-2 px-4 border-b">Pembeli</th>
                     </tr>
                 </thead>
                 <tbody>

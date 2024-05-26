@@ -37,7 +37,9 @@ const PembeliTable: React.FC<PembeliTableProps> = ( {userEmail} ) => {
       }
     };
 
-    fetchTransaksiList(userEmail);
+    useEffect(() => {
+      fetchTransaksiList(userEmail);
+  }, [userEmail]);
   
     const formatDate = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = {
@@ -53,7 +55,7 @@ const PembeliTable: React.FC<PembeliTableProps> = ( {userEmail} ) => {
       };
     return (
       <div className="container mx-auto px-4">
-        <h1 className="text-2xl font-bold mb-4">Transactions</h1>
+        <h1 className="text-2xl font-bold mb-4">Transaksi dari pembeli {userEmail}</h1>
         <table className="min-w-full bg-white border border-gray-300">
           <thead>
             <tr>
