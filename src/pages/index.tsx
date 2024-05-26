@@ -13,6 +13,9 @@ const UlasanHome: React.FC = () => {
             <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
               Ulasan
             </button>
+            <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300">
+              Keranjang
+            </button>
           </Link>
         </div>
       </div>

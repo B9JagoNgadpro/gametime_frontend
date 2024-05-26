@@ -1,37 +1,42 @@
-// src/components/keranjang/KeranjangList.tsx
 import React from 'react';
-import KeranjangItem from './KeranjangItem';
 
 interface KeranjangListProps {
-  items: Array<{
-    id: string;
-    name: string;
-    quantity: number;
-  }>;
-  onIncrement: (itemId: string) => void;
-  onDecrement: (itemId: string) => void;
-  onRemove: (itemId: string) => void;
-  onUpdate: (itemId: string, quantity: number) => void;
-  quantities: { [key: string]: number };
-  setQuantities: (itemId: string, quantity: number) => void;
+  cart: any;
+  onClearCart: () => void;
+  onIncrementItem: (itemId: string) => void;
+  onDecrementItem: (itemId: string) => void;
+  onRemoveItem: (itemId: string) => void;
+  onUpdateItem: (itemId: string, quantity: number) => void;
 }
 
-const KeranjangList: React.FC<KeranjangListProps> = ({ items, onIncrement, onDecrement, onRemove, onUpdate, quantities, setQuantities }) => {
+const KeranjangList: React.FC<KeranjangListProps> = ({
+  cart,
+  onClearCart,
+  onIncrementItem,
+  onDecrementItem,
+  onRemoveItem,
+  onUpdateItem
+}) => {
   return (
-    <ul>
-      {items.map((item) => (
-        <KeranjangItem
-          key={item.id}
-          item={item}
-          onIncrement={() => onIncrement(item.id)}
-          onDecrement={() => onDecrement(item.id)}
-          onRemove={() => onRemove(item.id)}
-          onUpdate={(quantity) => onUpdate(item.id, quantity)}
-          quantity={quantities[item.id] || item.quantity}
-          setQuantity={(quantity) => setQuantities(item.id, quantity)}
-        />
-      ))}
-    </ul>
+    <div>
+      <ul>
+        {Object.keys(cart.items).map((itemId) => (
+          <li key={itemId}>
+            <span>{itemId}: {cart.items[itemId]}</span>
+            <button onClick={() => onIncrementItem(itemId)}>+</button>
+            <button onClick={() => onDecrementItem(itemId)}>-</button>
+            <button onClick={() => onRemoveItem(itemId)}>Remove</button>
+            <input
+              type="number"
+              value={cart.items[itemId]}
+              onChange={(e) => onUpdateItem(itemId, parseInt(e.target.value))}
+            />
+          </li>
+        ))}
+      </ul>
+      <button onClick={onClearCart}>Clear Cart</button>
+      <p>Total Price: {cart.totalPrice}</p>
+    </div>
   );
 };
 
