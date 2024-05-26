@@ -9,8 +9,6 @@ const Login= ()=>{
             <LoginPage/>
             <ForgetPassword/>
         </Layout>
-        
-
     )
    
 };
