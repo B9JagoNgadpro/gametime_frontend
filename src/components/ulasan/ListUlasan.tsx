@@ -80,19 +80,23 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
 
     return (
         <div className="grid gap-4">
-            {ulasans.map((ulasan) => (
-                <div key={ulasan.id} className="bg-white p-4 rounded-lg shadow-md relative">
-                    <div className="text-lg font-bold">{ulasan.game}</div>
-                    <div className="mt-2">{renderStars(ulasan.rating)}</div>
-                    <div className="mt-2">{ulasan.deskripsi}</div>
-                    <div className="text-sm text-gray-600 mt-2">{ulasan.date}</div>
-                    <button 
-                        onClick={() => handleDelete(ulasan.id)} 
-                        className="absolute bottom-4 right-4 text-red-500 hover:text-red-700">
-                        <FaTrashAlt />
-                    </button>
-                </div>
-            ))}
+            {ulasans.length === 0 ? (
+                <div className="text-center text-gray-500">Belum ada ulasan</div>
+            ) : (
+                ulasans.map((ulasan) => (
+                    <div key={ulasan.id} className="bg-white p-4 rounded-lg shadow-md relative">
+                        <div className="text-lg font-bold">{ulasan.game}</div>
+                        <div className="mt-2">{renderStars(ulasan.rating)}</div>
+                        <div className="mt-2">{ulasan.deskripsi}</div>
+                        <div className="text-sm text-gray-600 mt-2">{ulasan.date}</div>
+                        <button 
+                            onClick={() => handleDelete(ulasan.id)} 
+                            className="absolute bottom-4 right-4 text-red-500 hover:text-red-700">
+                            <FaTrashAlt />
+                        </button>
+                    </div>
+                ))
+            )}
         </div>
     );
 };
