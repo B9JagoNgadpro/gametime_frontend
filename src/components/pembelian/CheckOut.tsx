@@ -25,7 +25,7 @@ const CheckOut = () => {
 
                 // Second fetch request to the specified endpoint
                 const userId = email; // Assuming userId is the email
-                const secondResponse = await fetch('http://34.168.24.170/input/' + userId, {
+                const secondResponse = await fetch('http://34.168.24.170/bought-games/input/' + userId, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
