@@ -4,7 +4,7 @@ import { FaStar, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import createAxiosInstance from '../../utils/api';
 
-interface Ulasan {
+export interface Ulasan {
     id: string;
     idUser: string;
     game: string;

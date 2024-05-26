@@ -56,7 +56,8 @@ const HomeUlasan: React.FC = () => {
           </div>
           <div className="w-1/2">
             <h1 className="text-2xl font-bold mb-4">Your Reviews</h1>
-            <ListUlasan idUser={"user1"} />
+            {/* NANTI DIBIKIN FETCH DARI USER LOGGED IN */}
+            <ListUlasan idUser={"user1"} /> 
           </div>
         </div>
       </div>
