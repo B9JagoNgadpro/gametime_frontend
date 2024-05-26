@@ -7,6 +7,7 @@ const GameDetailPage = () => {
     const router = useRouter();
     const { id } = router.query;
     const [game, setGame] = useState<any>(null);
+    const [error, setError] = useState('');
 
     useEffect(() => {
         if (id) {
@@ -22,6 +23,27 @@ const GameDetailPage = () => {
         }
     }, [id]);
 
+    const addToCart = async () => {
+        try {
+            const email = localStorage.getItem("email");
+            const token = localStorage.getItem('Authorization');
+            if (!email || !token) {
+                throw new Error('Unauthorized');
+            }
+
+            await axios.post(`/api/cart/increment`, null, {
+                params: { email, itemId: id },
+                headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' },
+            });
+
+            setError('');
+            alert('Game added to cart');
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            setError('Failed to add to cart');
+        }
+    };
+
     if (!game) {
         return <div>Loading...</div>;
     }
@@ -34,6 +56,13 @@ const GameDetailPage = () => {
                 <p className="text-md mb-2">Price: <span className="font-semibold">{game.harga}</span></p>
                 <p className="text-md mb-2">Category: <span className="font-semibold">{game.kategori}</span></p>
                 <p className="text-md mb-2">Stock: <span className="font-semibold">{game.stok}</span></p>
+                <button
+                    className="bg-green-500 text-white px-4 py-2 rounded-full mt-4 hover:bg-green-600"
+                    onClick={addToCart}
+                >
+                    Add to Cart
+                </button>
+                {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>
         </div>
     );
