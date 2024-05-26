@@ -50,8 +50,11 @@ const HomeUlasan: React.FC = () => {
 
       const boughtGames: BoughtGame[] = await response.json();
 
-      // Fetch game details for each bought game
-      const gameDetailsPromises = boughtGames.map(async (boughtGame) => {
+      // Filter bought games that are reviewed
+      const reviewedGames = boughtGames.filter(boughtGame => !boughtGame.reviewed);
+
+      // Fetch game details for each reviewed game
+      const gameDetailsPromises = reviewedGames.map(async (boughtGame) => {
         const gameResponse = await fetch(`http://34.87.70.230/api/games/${boughtGame.idGame}`, {
           method: 'GET',
           headers: {
@@ -65,7 +68,6 @@ const HomeUlasan: React.FC = () => {
         }
 
         const gameData = await gameResponse.json();
-        console.log(gameData)
         return gameData.data;
       });
 
@@ -73,6 +75,12 @@ const HomeUlasan: React.FC = () => {
       setGames(gameDetails);
     } catch (error) {
       console.error('Error fetching games:', error);
+    }
+  };
+
+  const refreshBoughtGames = () => {
+    if (email && token) {
+      fetchBoughtGames(email, token);
     }
   };
 
@@ -102,7 +110,7 @@ const HomeUlasan: React.FC = () => {
           </div>
           <div className="w-1/2">
             <h1 className="text-2xl font-bold mb-4">Your Reviews</h1>
-            <ListUlasan idUser={email || ''} /> 
+            <ListUlasan idUser={email || ''} onUlasanDeleted={refreshBoughtGames} /> 
           </div>
         </div>
       </div>

@@ -65,7 +65,7 @@ const CreateUlasan = ({ game }: CreateUlasanProps) => {
             await axiosInstance.post('/ulasan/create', form);
 
             // Mark game as reviewed
-            // await axiosInstance.patch(`/isReviewed/user/${form.idUser}`, { idGame: form.game });
+            await axiosInstance.patch(`/bought-games/isReviewed/user/${form.idUser}`, { idGame: form.game });
 
             Swal.fire({
                 title: 'Success!',

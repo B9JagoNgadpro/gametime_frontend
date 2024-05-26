@@ -15,9 +15,10 @@ export interface Ulasan {
 
 interface ListUlasanProps {
     idUser: string;
+    onUlasanDeleted: () => void; // New prop
 }
 
-const ListUlasan = ({ idUser }: ListUlasanProps) => {
+const ListUlasan = ({ idUser, onUlasanDeleted }: ListUlasanProps) => {
     const [ulasans, setUlasans] = useState<Ulasan[]>([]);
     const [gameDetails, setGameDetails] = useState<{ [key: string]: { nama: string, deskripsi: string, harga: number, kategori: string } }>({});
     const axiosInstance1 = createAxiosInstance('http://34.168.24.170/');
@@ -49,7 +50,7 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
         }
     }, [idUser]);
 
-    const handleDelete = async (idUlasan: string) => {
+    const handleDelete = async (idUlasan: string, idGame: string) => {
         Swal.fire({
             title: 'Are you sure?',
             text: 'You won\'t be able to revert this!',
@@ -61,13 +62,22 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
+                    // Delete ulasan
                     await axiosInstance1.delete(`/ulasan/delete/${idUlasan}`);
+                    
+                    // Mark game as unreviewed
+                    await axiosInstance1.patch(`/bought-games/unReviewed/user/${idUser}`, { idGame });
+
                     setUlasans((prevUlasans) => prevUlasans.filter(ulasan => ulasan.id !== idUlasan));
                     Swal.fire(
                         'Deleted!',
                         'Ulasan has been deleted.',
                         'success'
                     );
+
+                    // Call the onUlasanDeleted prop to refresh parent component
+                    onUlasanDeleted();
+
                 } catch (error) {
                     Swal.fire(
                         'Error!',
@@ -93,35 +103,35 @@ const ListUlasan = ({ idUser }: ListUlasanProps) => {
     };
 
     return (
-            <div className="grid gap-4">
-                {ulasans.length === 0 ? (
-                    <div className="text-center text-gray-500">Belum ada ulasan</div>
-                ) : (
-                    ulasans.map((ulasan) => (
-                        <GameCard
-                            key={ulasan.id}
-                            id={ulasan.game}
-                            nama={gameDetails[ulasan.game]?.nama || ''}
-                            deskripsi={gameDetails[ulasan.game]?.deskripsi || ''}
-                            harga={gameDetails[ulasan.game]?.harga || 0}
-                            kategori={gameDetails[ulasan.game]?.kategori || ''}
-                        >
-                            <div className="mt-4 border-t-2 pt-4">
-                                <div className="text-lg font-bold">
-                                    {ulasan.idUser} <span className="text-sm text-gray-600">∙ {ulasan.date}</span>
-                                </div>
-                                <div className="mt-2">{renderStars(ulasan.rating)}</div>
-                                <div className="mt-2">{ulasan.deskripsi}</div>
-                                <button
-                                    onClick={() => handleDelete(ulasan.id)}
-                                    className="absolute bottom-4 right-4 mt-2 text-red-500 hover:text-red-700">
-                                    <FaTrashAlt />
-                                </button>
+        <div className="grid gap-4">
+            {ulasans.length === 0 ? (
+                <div className="text-center text-gray-500">Belum ada ulasan</div>
+            ) : (
+                ulasans.map((ulasan) => (
+                    <GameCard
+                        key={ulasan.id}
+                        id={ulasan.game}
+                        nama={gameDetails[ulasan.game]?.nama || ''}
+                        deskripsi={gameDetails[ulasan.game]?.deskripsi || ''}
+                        harga={gameDetails[ulasan.game]?.harga || 0}
+                        kategori={gameDetails[ulasan.game]?.kategori || ''}
+                    >
+                        <div className="mt-4 border-t-2 pt-4">
+                            <div className="text-lg font-bold">
+                                {ulasan.idUser} <span className="text-sm text-gray-600">∙ {ulasan.date}</span>
                             </div>
-                        </GameCard>
-                    ))
-                )}
-            </div>
+                            <div className="mt-2">{renderStars(ulasan.rating)}</div>
+                            <div className="mt-2">{ulasan.deskripsi}</div>
+                            <button
+                                onClick={() => handleDelete(ulasan.id, ulasan.game)}
+                                className="absolute bottom-4 right-4 mt-2 text-red-500 hover:text-red-700">
+                                <FaTrashAlt />
+                            </button>
+                        </div>
+                    </GameCard>
+                ))
+            )}
+        </div>
     );
 };
 
