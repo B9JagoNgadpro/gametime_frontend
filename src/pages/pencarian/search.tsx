@@ -1,14 +1,11 @@
 "use client";
 import { useState } from 'react';
 import axios from 'axios';
-
 import GameList from '../../components/pencarian/GameList'
 
 const SearchPage = () => {
     const [query, setQuery] = useState('');
     const [category, setCategory] = useState('');
-    const [minPrice, setMinPrice] = useState('');
-    const [maxPrice, setMaxPrice] = useState('');
     const [games, setGames] = useState([]);
     const [searched, setSearched] = useState(false);
 
@@ -16,13 +13,13 @@ const SearchPage = () => {
         e.preventDefault();
         setSearched(true);
         try {
-            const response = await axios.get('http://34.87.70.230/api/games/get', {
+            const response = await axios.get('http://34.87.70.230/api/games/filter', {
                 params: {
-                    nama: query,
-                    kategori: category,
+                    name: query,
+                    category: category
                 },
             });
-            setGames(response.data.data);
+            setGames(response.data);
         } catch (error) {
             console.error('Error fetching games:', error);
         }
