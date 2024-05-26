@@ -5,7 +5,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { TextField, Button } from '@mui/material';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 const schema = yup.object().shape({
@@ -14,98 +14,50 @@ const schema = yup.object().shape({
   harga: yup.number().positive('Harga must be a positive number').required('Harga is required'),
   kategori: yup.string(),
   stok: yup.number().min(0, 'Stok must be zero or a positive number').required('Stok is required'),
+  idPenjual: yup.string().required('idPenjual is required')
 });
-// interface UserData {
-//     email: string;
-//     username: string;
-//     saldo: number;
-//     status: Status;
-// }
-
-// enum Status {
-//     ROLE_PEMBELI = "ROLE_PEMBELI",
-//     ROLE_PENJUAL = "ROLE_PENJUAL"
-// }
 
 const Form = () => {
-    const { control, handleSubmit, formState: { errors } } = useForm({
-        resolver: yupResolver(schema),
-    });
-    
-    const router = useRouter();
-   
-    
-    // const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { control, handleSubmit, formState: { errors }, setValue, reset } = useForm({
+    resolver: yupResolver(schema),
+  });
 
-    
-    // useEffect(() => {
-    //     const token = localStorage.getItem('Authorization');
-    //     if (token) {
-    //         setIsAuthenticated(true);
-    //         const response = await fetch(`http://34.87.70.230/user/me`, {
-    //             method: 'GET',
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`,
-    //                 'Content-Type': 'application/json',
-    //             },
-    //         });
-
-    //         if (response.ok) {
-    //             const data: Keranjang = await response.json();
-    //             setKeranjang(data);
-    //         } else {
-    //             if (response.status === 403) {
-    //                 throw new Error('Forbidden: You do not have access to this Page, please login as pembeli');
-    //             } else {
-    //                 const data: Keranjang = await response.json();
-    //                 console.log(data)
-    //                 throw new Error('Failed to fetch products');
-    //             }
-    //         }
-    //     } else {
-    //         // Redirect to login page if email is not found in local storage
-    //         router.push('/login');
-    //     }
-    // }, []);
-
-    // if (!isAuthenticated) {
-    //     return <p>Loading...</p>; // You can render a loading indicator while checking authentication
-    // }
-
-
-
-    const onSubmit = async (data: any) => {
-        try {
-            const token = localStorage.getItem('Authorization')
-            const response = await fetch('http://34.87.70.230/api/games/create', {
-                method: 'POST',
-                headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-
-            
-            if (response.ok) {
-                // Request was successful
-                alert('Game berhasil dibuat');
-                router.push('/login')
-            } else {
-                if (response.status === 403) {
-                    alert('Forbidden: You do not have access to this Page, please login as penjual')
-                }
-                else{
-
-                }
-            }
-          
-        }
-         catch (error) {
-        console.error('Error sending form data:', error);
-        }
-    };
+  const router = useRouter();
   
+  useEffect(() => {
+    const email = localStorage.getItem("email") || ''; // Provide a default value of empty string if email is null
+    setValue('idPenjual', email);
+  }, [setValue]);
+
+  const onSubmit = async (data: any) => {
+    try {
+      const token = localStorage.getItem('Authorization');
+      const response = await fetch('http://34.87.70.230/api/games/create', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        // Request was successful
+        alert('Game berhasil dibuat');
+        reset(); // Reset the form after successful submission
+        router.push('/login');
+      } else {
+        if (response.status === 403) {
+          alert('Forbidden: You do not have access to this Page, please login as penjual');
+        } else {
+          alert('Failed to create game');
+        }
+      }
+    } catch (error) {
+      console.error('Error sending form data:', error);
+      alert('An error occurred while sending the form data');
+    }
+  };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -188,6 +140,19 @@ const Form = () => {
               helperText={errors.stok ? errors.stok.message : ''}
               fullWidth
               margin="normal"
+            />
+          )}
+        />
+      </div>
+      {/* Hidden field for idPenjual */}
+      <div>
+        <Controller
+          name="idPenjual"
+          control={control}
+          render={({ field }) => (
+            <TextField
+              {...field}
+              type="hidden"
             />
           )}
         />
