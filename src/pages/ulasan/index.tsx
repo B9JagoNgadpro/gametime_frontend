@@ -1,42 +1,96 @@
-// src/pages/index.tsx
 import ListUlasan from '@/components/ulasan/ListUlasan';
 import Layout from '../../layout/layout';
 import GameCard from '@/components/ulasan/GameCard';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+
+interface Game {
+  id: string;
+  nama: string;
+  deskripsi: string;
+  harga: number;
+  kategori: string;
+}
+
+interface BoughtGame {
+  idGame: string;
+  idUser: string;
+  reviewed: boolean;
+}
 
 const HomeUlasan: React.FC = () => {
-  const games = [
-    {
-      id: 'game1',
-      nama: 'Game Satu',
-      deskripsi: 'Deskripsi singkat game satu.',
-      harga: 50000,
-      kategori: 'Aksi'
-    },
-    {
-      id: 'game2',
-      nama: 'Game Dua',
-      deskripsi: 'Deskripsi singkat game dua.',
-      harga: 75000,
-      kategori: 'Petualangan'
-    },
-    {
-      id: 'game3',
-      nama: 'Game Tiga',
-      deskripsi: 'Deskripsi singkat game tiga.',
-      harga: 100000,
-      kategori: 'Strategi'
+  const [email, setEmail] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [games, setGames] = useState<Game[]>([]);
+
+  useEffect(() => {
+    const storedEmail = localStorage.getItem("email");
+    const storedToken = localStorage.getItem('Authorization');
+    setEmail(storedEmail);
+    setToken(storedToken);
+
+    if (storedEmail && storedToken) {
+      fetchBoughtGames(storedEmail, storedToken);
     }
-  ];
+  }, []);
+
+  const fetchBoughtGames = async (userEmail: string, authToken: string) => {
+    try {
+      const response = await fetch(`http://34.168.24.170/bought-games/user/${userEmail}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const boughtGames: BoughtGame[] = await response.json();
+
+      // Filter bought games that are reviewed
+      const reviewedGames = boughtGames.filter(boughtGame => !boughtGame.reviewed);
+
+      // Fetch game details for each reviewed game
+      const gameDetailsPromises = reviewedGames.map(async (boughtGame) => {
+        const gameResponse = await fetch(`http://34.87.70.230/api/games/${boughtGame.idGame}`, {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${authToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!gameResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const gameData = await gameResponse.json();
+        return gameData.data;
+      });
+
+      const gameDetails = await Promise.all(gameDetailsPromises);
+      setGames(gameDetails);
+    } catch (error) {
+      console.error('Error fetching games:', error);
+    }
+  };
+
+  const refreshBoughtGames = () => {
+    if (email && token) {
+      fetchBoughtGames(email, token);
+    }
+  };
 
   return (
     <Layout>
       <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
-        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, User1 NANTI FETCH DARI LOGGED IN USER</h1>
+        <h1 className="text-4xl font-bold mb-8">Selamat Datang di Halaman Ulasan, {email}</h1>
         <div className="flex flex-row w-full max-w-7xl space-x-8">
           <div className="w-1/2 space-y-4">
-            <h1 className="text-2xl font-bold mb-4">Your Games NANTI FETCH DARI RIWAYAT</h1>
+            <h1 className="text-2xl font-bold mb-4">Your Games</h1>
             {games.map(game => (
               <GameCard 
                 key={game.id}
@@ -56,8 +110,7 @@ const HomeUlasan: React.FC = () => {
           </div>
           <div className="w-1/2">
             <h1 className="text-2xl font-bold mb-4">Your Reviews</h1>
-            {/* NANTI DIBIKIN FETCH DARI USER LOGGED IN */}
-            <ListUlasan idUser={"user1"} /> 
+            <ListUlasan idUser={email || ''} onUlasanDeleted={refreshBoughtGames} /> 
           </div>
         </div>
       </div>
