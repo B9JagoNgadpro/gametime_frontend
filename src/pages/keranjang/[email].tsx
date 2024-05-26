@@ -1,3 +1,5 @@
+// src/pages/keranjang/[email].tsx
+
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -25,11 +27,9 @@ const CartPage = () => {
     }
   }, [email]);
 
-  const API_BASE_URL = "http://35.213.132.17/api/cart";
-
   const getCart = async (email: string) => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/view/${email}`);
+      const response = await axios.get(`/api/cart/view/${email}`);
       setCart(response.data);
       setError('');
     } catch (error) {
@@ -39,7 +39,7 @@ const CartPage = () => {
 
   const clearCart = async () => {
     try {
-      await axios.delete(`${API_BASE_URL}/clear/${email}`);
+      await axios.delete(`/api/cart/clear/${email}`);
       getCart(email as string);
       setError('');
     } catch (error) {
@@ -49,7 +49,7 @@ const CartPage = () => {
 
   const incrementItem = async (itemId: string) => {
     try {
-      await axios.post(`${API_BASE_URL}/increment`, null, {
+      await axios.post(`/api/cart/increment`, null, {
         params: { email, itemId },
         headers: { 'Content-Type': 'application/json' },
       });
@@ -62,7 +62,7 @@ const CartPage = () => {
 
   const decrementItem = async (itemId: string) => {
     try {
-      await axios.post(`${API_BASE_URL}/decrement`, null, {
+      await axios.post(`/api/cart/decrement`, null, {
         params: { email, itemId },
         headers: { 'Content-Type': 'application/json' },
       });
@@ -75,7 +75,7 @@ const CartPage = () => {
 
   const removeItem = async (itemId: string) => {
     try {
-      await axios.delete(`${API_BASE_URL}/remove`, {
+      await axios.delete(`/api/cart/remove`, {
         params: { email, itemId },
         headers: { 'Content-Type': 'application/json' },
       });
@@ -89,42 +89,44 @@ const CartPage = () => {
   if (!cart) return <div>Loading...</div>;
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Keranjang Belanja</h1>
-      {error && <p className="text-red-500">{error}</p>}
-      <p className="text-lg">Email: {cart.email}</p>
-      {Object.keys(cart.items).map((itemId) => (
-        <div key={itemId} className="flex items-center justify-between border-b py-2">
-          <p className="text-lg">Item ID: {itemId} - Quantity: {cart.items[itemId]}</p>
-          <div>
+     <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
+    <h1 className="text-3xl font-bold mb-6 text-center text-blue-700">Keranjang Belanja</h1>
+    {error && <p className="text-red-500 mb-4">{error}</p>}
+    <p className="text-xl mb-4"><strong>Email:</strong> {cart.email}</p>
+    <div className="w-full max-w-4xl space-y-4">
+        {Object.keys(cart.items).map((itemId) => (
+        <div key={itemId} className="flex items-center justify-between p-4 bg-white rounded-lg shadow-sm">
+            <p className="text-lg"><strong>Item ID:</strong> {itemId} - <strong>Quantity:</strong> {cart.items[itemId]}</p>
+            <div className="flex space-x-2">
             <button
-              className="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-700"
-              onClick={() => incrementItem(itemId)}
+                className="bg-green-500 text-white px-3 py-1 rounded-full hover:bg-green-600"
+                onClick={() => incrementItem(itemId)}
             >
-              +
+                +
             </button>
             <button
-              className="bg-yellow-500 text-white px-2 py-1 rounded ml-2 hover:bg-yellow-700"
-              onClick={() => decrementItem(itemId)}
+                className="bg-yellow-500 text-white px-3 py-1 rounded-full hover:bg-yellow-600"
+                onClick={() => decrementItem(itemId)}
             >
-              -
+                -
             </button>
             <button
-              className="bg-red-500 text-white px-2 py-1 rounded ml-2 hover:bg-red-700"
-              onClick={() => removeItem(itemId)}
+                className="bg-red-500 text-white px-3 py-1 rounded-full hover:bg-red-600"
+                onClick={() => removeItem(itemId)}
             >
-              Remove
+                Remove
             </button>
-          </div>
+            </div>
         </div>
-      ))}
-      <p className="text-lg mt-4">Total Price: {cart.totalPrice}</p>
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-700"
+        ))}
+    </div>
+    <p className="text-xl mt-6"><strong>Total Price:</strong> {cart.totalPrice}</p>
+    <button
+        className="bg-blue-500 text-white px-6 py-2 rounded-full mt-6 hover:bg-blue-600"
         onClick={clearCart}
-      >
+    >
         Clear Cart
-      </button>
+    </button>
     </div>
   );
 };
