@@ -12,7 +12,7 @@ const CreatePage: React.FC = () => {
             <div className="flex flex-col items-center py-2 bg-gray-100 min-h-screen">
                 <h1 className="text-4xl font-bold mb-8">Create Tanggapan</h1>
                 <div className="w-full max-w-3xl">
-                    <CreateTanggapan ulasan={ulasanId as string} />
+                    <CreateTanggapan />
                 </div>
             </div>
         </Layout>
