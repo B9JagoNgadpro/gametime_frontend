@@ -33,6 +33,7 @@ const Navbar: React.FC = () => {
               <Link href="/riwayat-transaksi" className="text-white">Riwayat Transaksi</Link>
               <Link href="/ulasan" className="text-white">Ulasan</Link>
               <Link href="/keranjang" className="text-white">Keranjang</Link>
+              <Link href="/register" className="text-white">Resgister</Link>
               <button 
                 onClick={handleLogout} 
                 className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
